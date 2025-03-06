@@ -1,0 +1,12 @@
+[Unit]
+Description=Mikha Vidyo Application
+After=syslog.target
+
+[Service]
+User=root
+WorkingDirectory=/home/$USER/
+ExecStart=/usr/bin/java -jar /home/$USER/mikha-core-1.7-exe.jar
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

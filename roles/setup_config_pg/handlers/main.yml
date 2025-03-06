@@ -1,0 +1,24 @@
+- name: restart_apache
+  ansible.builtin.service: 
+    name: apache2
+    state: restarted
+    enabled: yes
+- name: restart_postgresql 
+  ansible.builtin.service: 
+    name: postgresql
+    state: restarted
+    enabled: yes
+- name: restart_nginx
+  ansible.builtin.service: 
+    name: nginx.service
+    state: restarted
+    enabled: yes
+- name: identity-admin.service
+  ansible.builtin.service: 
+    name: identity-admin.service
+    state: started
+    enabled: yes
+- name: stop_apache
+  ansible.builtin.service: 
+    name: apache2
+    state: stopped

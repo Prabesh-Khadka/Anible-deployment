@@ -1,0 +1,58 @@
+- name: install packages for docker and nginx
+  apt: 
+    pkg:
+    - nginx
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - software-properties-common
+    - lsb-release
+    - gnupg
+    - python3-psycopg2
+    - acl
+    state: present 
+    update_cache: true
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+#state is absent because ubuntu distro is 18.04
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu jammy stable
+    state: absent
+
+- name: install docker
+  apt:
+    pkg:
+    #uncomment all of this if the distro is jammy
+    #- containerd.io 
+    #- docker-ce
+    #- docker-ce-cli
+    #- docker-compose
+    - docker.io
+    state: present 
+
+- name: copy nginx config file 
+  become: true
+  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:    
+  - { src: 'default', dest: '/etc/nginx/sites-available/' } #change the home directory inside service file 
+
+- name: copy compose 
+  become: false
+  ansible.builtin.copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+  - { src: 'identity-server-docker-compose', dest: '/home/{{ user }}' }
+  #original file not place due to huge disk space 
+  - { src: 'mbl_docker_images.tar', dest: '/home/{{ user }}', owner: '{{ user }}', group: '{{ user }}' }
+
+#uncomment this after placing the original tar file    
+
+#- name: load docker image 
+#  community.docker.docker_image_load:
+#    path: mbl_docker_images.tar
+#  register: result
+

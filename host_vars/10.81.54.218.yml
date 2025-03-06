@@ -1,0 +1,9 @@
+apache_package: apache2
+apache_service: apache2
+nginx_package: nginx
+nginx_service: nginx
+#user: dadmin
+#user: user
+user: ankit
+remote_server_user: ankit
+postgresql_version: 12

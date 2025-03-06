@@ -1,0 +1,10 @@
+- name: restart_nginx 
+  ansible.builtin.service:
+    name: nginx
+    state: restarted 
+    enabled: yes
+- name: restart_mikhavidyo-prod
+  service:
+    name: mikhavidyo-prod.service
+    state: restarted 
+    enabled: yes

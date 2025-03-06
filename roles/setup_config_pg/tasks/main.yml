@@ -1,0 +1,119 @@
+- name: install postgresql package
+  apt: 
+    pkg:
+    - nginx
+    - tmux
+    - postgresql-{{ postgresql_version }}
+    - python3-psycopg2
+    - acl
+    state: present 
+
+- name: allowing postgres to be trusted by psql
+  become: yes
+  become_user: postgres
+  postgresql_pg_hba:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    contype: local
+    databases: all
+    method: trust
+    create: no
+    users: postgres
+  notify: restart_postgresql
+
+- name: allow frontend, backend, identity servers for postgresql connection 
+  become: yes
+  become_user: postgres
+  lineinfile:
+    path: /etc/postgresql/{{ postgresql_version }}/main/postgresql.conf
+    regexp: "#listen_addresses = 'localhost'" #string to search 
+    line: "listen_addresses = '*'" #string to replace
+    state: present
+
+- name: restart_postgresql 
+  ansible.builtin.service: 
+    name: postgresql
+    state: restarted
+
+- name: create db
+  postgresql_db:
+    name: mikha_db_prod
+    state: present
+  become: true
+  become_user: postgres
+
+- name: create db
+  postgresql_db:
+    name: dctidentitydb # dctidentity-> admin,api,sts notificationserverdb-> notification
+    state: present
+  become: true
+  become_user: postgres
+
+- name: create db
+  postgresql_db:
+    name: notificationserverdb #notificationserverdb-> notification
+    state: present
+    owner: postgres
+  become: true
+  become_user: postgres
+  notify: restart_postgresql
+
+- name: create db
+  postgresql_db:
+    name: notificationserverjobsdb #notificationserverdb-> notification
+    state: present
+    owner: postgres
+  become: true
+  become_user: postgres
+  notify: restart_postgresql
+
+
+- name: Grant access to notificationserverjobsdb to user postgres
+  community.postgresql.postgresql_privs:
+    type: database
+    database: notificationserverjobsdb
+    roles: postgres
+    grant_option: yes
+    privs: all
+  become: true
+  become_user: postgres
+
+- name: Grant access to mikha_db_prod for user postgres
+  community.postgresql.postgresql_privs:
+    type: database
+    database: mikha_db_prod
+    roles: postgres
+    grant_option: yes
+    privs: all
+  become: true
+  become_user: postgres
+
+- name: Grant access to notificationserverdb to user postgres
+  community.postgresql.postgresql_privs:
+    type: database
+    database: dctidentitydb
+    roles: postgres
+    grant_option: yes
+    privs: all
+  become: true
+  become_user: postgres
+
+- name: change postgres db user password
+  postgresql_user:
+    db: dctidentitydb
+    name: postgres
+    password: Laxmi@123
+    priv: "ALL"
+    expires: 'infinity'
+
+- name: allowing postgres to be 'md5' by psql
+  postgresql_pg_hba:
+    dest: "/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf"
+    contype: local
+    databases: all
+    method: md5
+    create: no
+    users: postgres
+  become: yes
+  become_user: postgres
+  notify: restart_postgresql
+

@@ -1,0 +1,1 @@
+addEventListener("message",function(e){var s=new XMLHttpRequest;s.open("GET","https://mikha-api.laxmibank.com/speed_test/checkSpeed",!1),s.send(null);var t=JSON.parse(s.response);postMessage(t)});

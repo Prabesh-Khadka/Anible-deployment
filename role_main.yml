@@ -1,0 +1,21 @@
+
+- hosts: mikha-db  # change to all when completed
+  gather_facts: False #disabling gather facts for all hosts
+  become: true
+  roles:  
+    - base  #update os and install dotnet sdk/runtim#e
+    - setup_config_pg
+
+- hosts: mikha-front-back
+  become: true
+  gather_facts: False #disabling gather facts for all hosts
+  roles:
+    - base
+    - front-back-deploy
+    
+- hosts: mikha-identity-docker
+  gather_facts: False #disabling gather facts for all hosts
+  become: true
+  roles:
+    - base
+    - docker-identity

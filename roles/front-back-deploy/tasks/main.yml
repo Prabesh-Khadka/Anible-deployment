@@ -1,0 +1,44 @@
+- name: install packages
+  ansible.builtin.apt: 
+    pkg:
+    - tmux
+   #- "{{ apache_package }}"
+    - "{{ nginx_package }}"
+    - default-jre
+    - default-jdk
+    dpkg_options: 'force-overwrite,force-confnew'
+    state: present
+
+- name: copy  config file
+  become: true
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items: 
+  - { src: 'default', dest: '/etc/nginx/sites-available/default' }
+  - { src: 'mikha-angular-client/', dest: '/var/www/html/' }
+  - { src: 'mikhavidyo-prod.service', dest: '/etc/systemd/system/' }
+  #remote_src: yes  
+
+- name: copy jar file
+  become: false
+  #remote_user: ankit
+  copy: 
+    src: mikha-core-1.7-exe.jar
+    dest: '/home/{{ user }}/'
+    owner: '{{ user }}'
+    group: '{{ user }}'
+    mode: '0744'
+  #notify: 
+  #- restart_postgresql
+  #- restart_mikhavidyo-prod
+  #- restart_nginx    
+
+#- name: restart_nginx 
+#  ansible.builtin.service:
+#    name: nginx
+#    state: restarted 
+#    enabled: yes
+#- name: restart_mikhavidyo-prod
+#  service:
+#    name: mikhavidyo-prod.service
+#    state: restarted 
+#    enabled: yes

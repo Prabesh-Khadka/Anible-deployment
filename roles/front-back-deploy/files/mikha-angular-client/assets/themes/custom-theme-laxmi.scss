@@ -1,0 +1,161 @@
+// @import "~@angular/material/theming";
+// @include mat-core();
+
+// $primary: mat-palette($mat-orange, 700);
+// $accent: mat-palette($mat-orange, 700);
+
+// $theme: mat-light-theme($primary, $accent);
+
+// @include angular-material-theme($theme);
+
+@import "~@angular/material/theming";
+@import "~angular-calendar/scss/angular-calendar.scss";
+@include mat-core();
+$angular-primary: mat-palette($mat-orange, 500, 100, 900);
+$angular-accent: mat-palette($mat-orange, A200, A100, A400);
+$angular-warn: mat-palette($mat-red);
+$angular-default-theme: mat-light-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+@include angular-material-theme($angular-default-theme);
+$bg-light-secondary: #f582281c;
+$bg-light-active: #f582281c;
+@include cal-theme(
+  (
+    badge-color: #f58228,
+    today-bg: $bg-light-secondary,
+    bg-secondary: $bg-light-secondary,
+    bg-active: $bg-light-active,
+  )
+);
+
+$angular-dark-theme: mat-dark-theme(
+  (
+    color: (
+      primary: $angular-primary,
+      accent: $angular-accent,
+      warn: $angular-warn,
+    ),
+  )
+);
+.darkMode {
+  @include angular-material-color($angular-dark-theme);
+
+  // $bg-dark-primary: #1f262d;
+  $bg-dark-primary: #424242;
+  $bg-dark-secondary: #f582281c;
+  $bg-active: #f582281c;
+  $text-color: #d5d6d7;
+  $border-color: rgba(0, 0, 0, 0.4);
+
+  @include cal-theme(
+    (
+      bg-primary: $bg-dark-primary,
+      bg-secondary: $bg-dark-secondary,
+      weekend-color: indianred,
+      badge-color: #f58228,
+      bg-active: $bg-active,
+      border-color: $border-color,
+      gray: $bg-dark-secondary,
+      today-bg: $bg-dark-secondary,
+      event-color-primary: $bg-dark-secondary,
+    )
+  );
+
+  // How to override a non themable property, this was copied from chrome -> inspect element -> styles panel
+  .cal-month-view .cal-day-cell.cal-out-month .cal-day-number {
+    opacity: 0.15;
+  }
+
+  .btn-primary,
+  .draggable-header {
+    color: white;
+    background-color: #f58228 !important;
+    border-color: #f58228 !important;
+  }
+
+  .btn-primary:hover,
+  .btn-primary:not(:disabled):not(.disabled).active,
+  .btn-primary:not(:disabled):not(.disabled):active,
+  .show > .btn-primary.dropdown-toggle {
+    color: white;
+    background-color: #f59b55 !important;
+    border-color: #f59b55 !important;
+  }
+
+  .header-logo {
+    background-image: url(../images/laxmibank.png);
+    width: 150px;
+    height: 36px;
+  }
+
+  .header-beta-logo {
+    padding: 2px 10px;
+    font-size: 14px;
+    line-height: 18px;
+    border-radius: 12px;
+    margin-left: 10px;
+    background-color: white;
+    color:black;
+  }
+
+  .welcome-banner-container {
+    background-color: transparent;
+  }
+}
+
+.btn-primary,
+.draggable-header {
+  color: white;
+  background-color: #f58228 !important;
+  border-color: #f58228 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show > .btn-primary.dropdown-toggle {
+  color: white;
+  background-color: #f59b55 !important;
+  border-color: #f59b55 !important;
+}
+
+.header-logo {
+  background-image: url(../images/laxmibank.png);
+  width: 150px;
+  height: 36px;
+}
+
+.header-beta-logo {
+  padding: 2px 10px;
+  font-size: 14px;
+  line-height: 18px;
+  border-radius: 12px;
+  margin-left: 10px;
+  background-color: black;
+  color: white;
+}
+
+.welcome-banner-container {
+  background-color: #f5822880;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  min-height: 200px;
+}
+
+.welcome-banner {
+  background: url(../homebanner.svg) bottom center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  min-height: 200px;
+}
+
+.img__description_layer {
+  background: #f5822880;
+}

@@ -1,0 +1,35 @@
+- name: restart_apache
+  ansible.builtin.service: 
+    name: apache2
+    state: restarted
+- name: restart_postgresql 
+  ansible.builtin.service: 
+    name: postgresql
+    state: restarted
+- name: restart_nginx
+  ansible.builtin.service: 
+    name: nginx.service
+    state: restarted
+- name: restart_mikhavidyo-prod
+  ansible.builtin.service: 
+    name: mikhavidyo-prod.service
+    state: started
+- name: start_identity-api.service
+  ansible.builtin.service: 
+    name: identity-api.service
+    state: started
+    enabled: yes
+- name: start_notification.service
+  ansible.builtin.service: 
+    name: notification.service
+    state: started
+    enabled: yes
+- name: start_sts.service
+  ansible.builtin.service: 
+    name: sts.service
+    state: started
+    enabled: yes
+- name: stop_apache
+  ansible.builtin.service: 
+    name: apache2
+    state: stopped
