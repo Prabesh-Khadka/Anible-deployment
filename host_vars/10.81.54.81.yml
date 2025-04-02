@@ -2,7 +2,7 @@ apache_package: apache2
 apache_service: apache2
 nginx_package: nginx
 nginx_service: nginx
-remote_server_user: ankit
+remote_server_user: prabesh
 
-user: ankit
+user: prabesh
 postgresql_version: 12
