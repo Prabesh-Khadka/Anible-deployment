@@ -5,5 +5,5 @@ nginx_service: nginx
 #user: dadmin
 #user: user
 user: ankit
-remote_server_user: ankit
+remote_server_user: prabesh
 postgresql_version: 12
